@@ -41,11 +41,6 @@ public abstract class GTOres extends GTGenericBlock {
         } else if (BlockOresAbstract.mTemporaryTileEntity.get() != null) {
             oreMeta = BlockOresAbstract.mTemporaryTileEntity.get().mMetaData;
         }
-        if (TileEntityOresAccessor.getShouldSilkTouch()) {
-            if (oreMeta < SMALL_ORES_META_START) {
-                return;
-            }
-        }
         float mult = ModConfig.Rates.gtOresDrops;
         // COAL
         if (GregTechAPI.sGeneratedMaterials[(oreMeta % 1000)] == Materials.Coal) {
