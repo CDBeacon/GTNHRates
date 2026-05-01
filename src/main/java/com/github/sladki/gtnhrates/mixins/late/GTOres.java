@@ -9,7 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.github.sladki.gtnhrates.ModConfig;
 import com.github.sladki.gtnhrates.Utils;
 
-import bartworks.system.material.BWTileEntityMetaGeneratedOre;
+import bartworks.system.material.TileEntityMetaGeneratedBlock;
 import gregtech.api.GregTechAPI;
 import gregtech.api.enums.Materials;
 import gregtech.api.items.GTGenericBlock;
@@ -53,17 +52,12 @@ public abstract class GTOres extends GTGenericBlock {
         super(aItemClass, aName, aMaterial);
     }
 
-    @Mixin(value = BWTileEntityMetaGeneratedOre.class, remap = false)
+    @Mixin(value = TileEntityMetaGeneratedBlock.class, remap = false)
     public abstract static class Bartworks {
-
-        @Shadow
-        protected static boolean shouldSilkTouch;
 
         @Inject(method = "getDrops", at = @At(value = "RETURN"), cancellable = true)
         private void onGetDrops(int aFortune, CallbackInfoReturnable<ArrayList<ItemStack>> cir) {
-            if (!shouldSilkTouch) {
-                cir.setReturnValue(Utils.multiplyItemStacksSize(cir.getReturnValue(), ModConfig.Rates.gtOresDrops));
-            }
+            cir.setReturnValue(Utils.multiplyItemStacksSize(cir.getReturnValue(), ModConfig.Rates.gtOresDrops));
         }
     }
 }
